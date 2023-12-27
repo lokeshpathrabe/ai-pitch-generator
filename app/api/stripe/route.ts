@@ -11,8 +11,12 @@ export async function GET() {
       return NextResponse.json({ message: "Unauthenticated" }, { status: 401 });
     }
 
-    const userSubscription = await prismadb.subscription.findUnique({
+    const account = await prismadb.account.findFirst({
       where: { userId: user.id },
+    });
+
+    const userSubscription = await prismadb.subscription.findFirst({
+      where: { accountId: account?.id },
     });
 
     if (userSubscription && userSubscription.stripeCustomerId) {

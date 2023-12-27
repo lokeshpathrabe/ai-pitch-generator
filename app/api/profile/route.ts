@@ -5,21 +5,30 @@ import { z } from "zod";
 import { profileCreateRequest, profileUpdateRequest } from "./profile.schema";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const userId = searchParams.get("userId");
-
-  if (!userId) {
+  const user = await currentUser();
+  if (!user) {
     return NextResponse.json(
       { message: "User ID is required", data: null },
       { status: 400 }
     );
   }
 
-  let profile = await prismadb.profile.findFirst({ where: { userId } });
+  let account = await prismadb.account.findFirst({
+    where: { userId: user.id },
+  });
 
-  if (!profile) {
+  let profile = await prismadb.profile.findFirst({
+    where: { accountId: account?.id },
+  });
+
+  if (!profile && account) {
     profile = await prismadb.profile.create({
-      data: { userId, description: "", profileImageUrl: "", title: "" },
+      data: {
+        accountId: account.id,
+        description: "",
+        profileImageUrl: "",
+        title: "",
+      },
     });
   }
 

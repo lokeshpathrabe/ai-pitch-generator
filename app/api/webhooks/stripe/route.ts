@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     await prismadb.subscription.create({
       data: {
-        userId: session?.metadata?.userId,
+        accountId: session?.metadata?.userId,
         stripeSubscriptionId: subscription.id,
         stripeCustomerId: subscription.customer as string,
         stripeCurrentPeriodEnd: new Date(

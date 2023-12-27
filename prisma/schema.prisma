@@ -23,7 +23,7 @@ model Account {
   id        String   @id @default(auto())  @map("_id") @db.ObjectId
   userId    String  
   email     String   @unique
-  username  String  
+  username  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   Resume       Resume[]
@@ -41,7 +41,7 @@ model Subscription {
   stripeCurrentPeriodEnd DateTime?
   createdAt              DateTime  @default(now())
   updatedAt              DateTime  @default(now())
-  accountId              String   @db.ObjectId
+  accountId              String   @db.ObjectId @unique
   Account                Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 

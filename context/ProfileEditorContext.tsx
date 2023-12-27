@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 const DEFAULT_PROFILE: Profile = {
   id: "",
-  userId: "",
+  accountId: "",
   title: "",
   description: "",
   profileImageUrl: "",
