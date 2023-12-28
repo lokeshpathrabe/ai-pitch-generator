@@ -13,6 +13,7 @@ import { prismadb } from "@/lib/prismadb";
 import SelectResume from "./ResumeSelector";
 import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import Pitch from "./Pitch";
 
 const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
   const [pitch, setPitch] = useState<string>("");
@@ -37,15 +38,17 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
   useEffect(() => {
     const resume = resumes.find((resume) => resume.slug === selectedResumeSlug);
 
-    const prompt = `Given the candidates skills in JSON format and job description, generate a job pitch for the candidate satisfying the following requirements.
+    const prompt = `Given the candidates skills in JSON format called resumeJSON with skills and experience of candidate and job description in text format, generate a job pitch for the candidate satisfying the following requirements.
     Identify required and optional skills from job description.
-    The pitch should highlight candidate skills matching for the job description. 
-    Also highlight previous experience with company and role details where the must required skills were last used by candidate.
-    If the job requires some skills that candidate does not have then show willingness to learn. 
-    Highlight softskills and matching domain/industry experience.
-    Key skills and experience of candidate:
-  ${resume?.generatedJSON}
+    Generate a job pitch that should highlight candidate skills matching for the job description. 
+    If candidate has used required skills from job description in its previous experience then highlight that experience (include company name and role played from resumeJSON).
+    If the job requires some skills that candidate does not have then show willingness to learn. Do not add skills or experience that is not listed in resume json
+    Highlight softskills and matching domain/industry experience. 
+    resumeJSON:${resume?.generatedJSON}
  `;
+
+    console.log(`${resume?.generatedJSON}`);
+
     setMessages([{ role: "system", content: prompt, id: "1" }]);
   }, [resumes, selectedResumeSlug, setMessages]);
 
@@ -64,10 +67,14 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4 p-8">
-      {isLoading && <div className="col-span-12 text-center">Loading ....</div>}
+    <div className="grid grid-cols-12 gap-4 h-full">
+      {isLoading && (
+        <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full bg-gray-300 bg-opacity-50">
+          <p className="text-center">loading...</p>
+        </div>
+      )}
       <form
-        className="col-span-12 sm:col-span-6 space-y-2"
+        className="col-span-12 sm:col-span-6 space-y-2 p-8"
         onSubmit={handleOpenAIChatSubmit}
       >
         <div className="col-span-12">
@@ -97,13 +104,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
         </Button>
       </form>
       <div className="col-span-12 sm:col-span-6 space-y-2">
-        <Label htmlFor="generatedJson">Pitch</Label>
-        <Textarea
-          rows={16}
-          name="generatedJson"
-          disabled={isLoading}
-          value={pitch}
-        />
+        <Pitch disabled={isLoading} pitch={pitch} />
       </div>
     </div>
   );

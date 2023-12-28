@@ -7,10 +7,10 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/account",
-    "/api/lead-magnet",
+    "/api/openai",
     "/api/webhooks/stripe",
-    "/api/lead-magnet/publish",
-    "/api/lead-magnet/unpublish",
+    "/api/resume",
+    "/api/profile",
   ],
 });
 

@@ -3,30 +3,32 @@ import { SignInButton, UserButton, currentUser } from "@clerk/nextjs";
 import { User } from "@clerk/nextjs/api";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
+import { ThemeSelector } from "@/components/ThemeSelector";
 
 async function LandingPageNavbar() {
   const user: User | null = await currentUser();
 
   return (
-    <nav className="flex w-screen items-center justify-between p-6 ">
-      <div>
-        <Link
-          className="text-2xl font-bold text-purple-500 no-underline"
-          href="/"
-        >
-          AI Pitch Generator
-        </Link>
-      </div>
-      <div className="text-purple-500 font-semibold text-lg">
+    <nav className="flex w-screen items-center justify-between p-4">
+      <Image
+        className="drop-shadow-2xl cursor-pointer"
+        src="/logo.svg"
+        width={100}
+        height={200}
+        alt="ai-pitch"
+      />
+      <div className="text-purple-500 font-semibold text-md">
         {user ? (
-          <div className="flex flex-row gap-x-4 items-center">
-            <Link href="/new-pitch">
-              <Button variant="outline">Generate a pitch</Button>
-            </Link>
+          <div className="flex gap-x-4 items-center">
+            <ThemeSelector />
             <UserButton />
           </div>
         ) : (
-          <SignInButton />
+          <>
+            <ThemeSelector />
+            <SignInButton />
+          </>
         )}
       </div>
     </nav>

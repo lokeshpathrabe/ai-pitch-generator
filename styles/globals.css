@@ -33,6 +33,9 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --highligh-gradient-bg-1: 346 100% 52%;
+    --highligh-gradient-bg-2: 14 98% 79%;
   }
 
   .dark {
@@ -63,6 +66,9 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --highligh-gradient-bg-1: 345 50% 52%;
+    --highligh-gradient-bg-2: 14 100% 80%;
   }
 }
 
@@ -73,4 +79,19 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  .white-dotted-background {
+    background-image: radial-gradient(circle, #c3b5f7 1px, transparent 0),
+      radial-gradient(circle, #c3b5f7 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: 0 10px, 10px 0;
+  }
+}
+
+.root,
+body,
+html {
+  height: 100%;
 }

@@ -21,7 +21,7 @@ async function NewResume() {
 
   const resumes = await getResumes(account?.id);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mx-auto">
       <ResumeForm />
       <ResumeList resumes={resumes} />
     </div>

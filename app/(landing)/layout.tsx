@@ -8,11 +8,12 @@ function LandingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex min-h-screen flex-col overflow-x-clip">
+    <section
+      id="main-section"
+      className="flex min-h-screen flex-col overflow-x-clip"
+    >
       <LandingPageNavbar />
-
       <div className="flex-grow">{children}</div>
-
       <LandingPageFooter />
     </section>
   );

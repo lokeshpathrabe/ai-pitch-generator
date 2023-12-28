@@ -1,18 +1,20 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { ThemeSelector } from "./ThemeSelector";
 
 const routes = [
   {
-    name: "Manage Resume",
-    path: "/new-resume",
+    name: "Generate Pitch",
+    path: "/new-pitch",
   },
   {
-    name: "Account",
-    path: "/account",
+    name: "Manage Resume",
+    path: "/manage-resume",
   },
 ];
 
@@ -21,25 +23,34 @@ function DashboardNavBar() {
 
   return (
     <div className="p-4 flex justify-between items-center text-purple-500 border-b-2">
-      {/* Logo Link */}
       <Link href="/">
-        <h1 className="text-2xl font-bold">AI Pitch Generator</h1>
+        <Image
+          className="drop-shadow-2xl cursor-pointer"
+          src="/logo.svg"
+          width={100}
+          height={200}
+          alt="ai-pitch"
+        />
       </Link>
-      {/*  Routes followed by the clerk user button */}
-      <div className="flex gap-x-6 text-lg items-center">
-        {routes.map((route, idx) => (
-          <Link
-            key={idx}
-            href={route.path}
-            className={
-              pathname === route.path ? "border-b-2 border-purple-300" : ""
-            }
-          >
-            {route.name}
-          </Link>
-        ))}
+      <div className="flex gap-x-10 text-md items-center">
+        <div className="space-x-4">
+          {routes.map((route, idx) => (
+            <Link
+              key={idx}
+              href={route.path}
+              className={
+                pathname === route.path ? "border-b-2 border-purple-300" : ""
+              }
+            >
+              {route.name}
+            </Link>
+          ))}
+        </div>
 
-        <UserButton afterSignOutUrl="/" />
+        <div className="flex gap-x-4">
+          <ThemeSelector />
+          <UserButton afterSignOutUrl="/" />
+        </div>
       </div>
     </div>
   );
