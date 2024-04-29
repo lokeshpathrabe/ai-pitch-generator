@@ -25,10 +25,10 @@ async function LandingPageNavbar() {
             <UserButton />
           </div>
         ) : (
-          <>
+          <div className="flex gap-x-4 items-center">
             <ThemeSelector />
             <SignInButton />
-          </>
+          </div>
         )}
       </div>
     </nav>

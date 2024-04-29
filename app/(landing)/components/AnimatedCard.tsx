@@ -7,7 +7,6 @@ const AnimatedCard = ({ children }: React.PropsWithChildren<any>) => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && "IntersectionObserver" in window) {
-      console.log("creating observer");
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && animatedDivRef.current) {

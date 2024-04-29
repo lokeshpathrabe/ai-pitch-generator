@@ -32,14 +32,14 @@ function DashboardNavBar() {
           alt="ai-pitch"
         />
       </Link>
-      <div className="flex gap-x-10 text-md items-center">
+      <div className="gap-x-10 text-md items-center hidden sm:flex">
         <div className="space-x-4">
           {routes.map((route, idx) => (
             <Link
               key={idx}
               href={route.path}
               className={
-                pathname === route.path ? "border-b-2 border-purple-300" : ""
+                pathname === route.path ? "border-b border-purple-300" : ""
               }
             >
               {route.name}
@@ -49,7 +49,9 @@ function DashboardNavBar() {
 
         <div className="flex gap-x-4">
           <ThemeSelector />
-          <UserButton afterSignOutUrl="/" />
+          <UserButton afterSignOutUrl="/">
+            <div>options</div>
+          </UserButton>
         </div>
       </div>
     </div>

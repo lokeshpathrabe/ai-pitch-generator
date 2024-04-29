@@ -42,7 +42,7 @@ const Hero = () => {
         </span>
       </h1>
 
-      <p className="sm:text-md mt-5 max-w-2xl text-sm text-gray-600  md:text-xl">
+      <p className="sm:text-md mt-5 max-w-2xl text-sm text-muted-foreground  md:text-xl">
         AI Assisted Job Pitch Generator is a powerful tool that helps job
         seekers create compelling pitches to impress potential employers. With
         AI technology, you can effortlessly generate personalized pitches that
@@ -95,7 +95,7 @@ const FeatureCard = ({
   icon: JSX.Element;
 }) => {
   return (
-    <div className="group flex flex-col items-center justify-center rounded-xl border border-purple-200 bg-white p-4 text-center">
+    <div className="group flex flex-col items-center justify-center rounded-xl border border-purple-200 bg-background p-4 text-center">
       <div className="mb-4 rounded-full bg-purple-500 p-4 text-white group-hover:-translate-y-10 transition-all ease-in-out duration-300">
         {icon}
       </div>
@@ -173,12 +173,12 @@ const HowItWorksStep = ({
   return (
     <div className="flex w-full flex-col items-start justify-center px-8 py-6 text-left md:w-1/2">
       <h3 className="text-xl font-semibold text-purple-500">{title}</h3>
-      <p className="mt-2 font-semibold text-gray-600">{description}</p>
+      <p className="mt-2 font-semibold text-muted-foreground">{description}</p>
       <ul className="mt-2">
         {checks.map((check, index) => (
           <li
             key={index}
-            className="text-grey-400 flex items-center font-light"
+            className="text-muted-foreground flex items-center font-light"
           >
             <FaCheck className="mr-2 text-purple-500" />
             {check}
@@ -201,11 +201,11 @@ const Pricing = () => {
             <CardDescription className="text-xl">Free Plan</CardDescription>
             <CardTitle className="text-4xl">$0/Month</CardTitle>
           </CardHeader>
-          <CardContent className="mt-4">
-            <p className="mb-2 text-center text-gray-600">
+          <CardContent>
+            <p className="mb-4 text-center text-muted-foreground">
               Generate up to 5 Pitch
             </p>
-            <Link href="/lead-magnets">
+            <Link href="/new-pitch">
               <Button variant="outline">Get Started</Button>
             </Link>
           </CardContent>
@@ -216,10 +216,10 @@ const Pricing = () => {
             <CardTitle className="text-4xl">$5/Month</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4 text-center text-gray-600">
+            <p className="mb-4 text-center text-muted-foreground">
               Create Unlimited AI Pitch
             </p>
-            <Link href="/lead-magnets">
+            <Link href="/new-pitch">
               <Button>Get Started</Button>
             </Link>
           </CardContent>
@@ -231,14 +231,14 @@ const Pricing = () => {
 
 const CallToAction = () => {
   return (
-    <div className="flex flex-col items-center bg-white px-6 py-16 text-center">
+    <div className="flex flex-col items-center bg-background px-6 py-16 text-center">
       <h2 className="text-3xl font-bold text-purple-500 sm:text-4xl md:text-5xl">
         Ready to Transform Your Job Application?
       </h2>
-      <p className="mt-4 max-w-2xl text-lg text-grey-700 sm:text-xl md:text-2xl">
+      <p className="mt-4 max-w-2xl text-lg text-muted-foreground sm:text-xl md:text-2xl">
         Join the AI revolution and start applying for jobs with best pitch.
       </p>
-      <Link href="/lead-magnets">
+      <Link href="/new-pitch">
         <Button className="text-sm px-4 py-5 sm:text-lg mt-4">
           Create Your First AI Pitch
         </Button>

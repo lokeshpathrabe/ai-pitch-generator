@@ -74,7 +74,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
         </div>
       )}
       <form
-        className="col-span-12 sm:col-span-6 space-y-2 p-8"
+        className="col-span-12 sm:col-span-6 space-y-4 p-8"
         onSubmit={handleOpenAIChatSubmit}
       >
         <div className="col-span-12">

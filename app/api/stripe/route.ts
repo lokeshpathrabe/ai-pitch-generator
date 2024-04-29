@@ -40,8 +40,8 @@ export async function GET() {
           price_data: {
             currency: "USD",
             product_data: {
-              name: "Lead Convert Pro",
-              description: "Unlimited AI Lead Magnets",
+              name: "AI Pitch Genearator Pro",
+              description: "Unlimited AI pitches for a month",
             },
             unit_amount: 1000,
             recurring: {
