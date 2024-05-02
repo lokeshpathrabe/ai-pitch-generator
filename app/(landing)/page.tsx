@@ -113,9 +113,9 @@ const HowItWorks = () => {
         {/* Step 1 */}
         <AnimatedCard>
           <div className="flex flex-col justify-between sm:flex-row-reverse sm:space-y-0">
-            <div className="mx-auto w-full md:w-1/2">
+            <div className="mx-auto w-full p-6 md:w-1/2">
               <Image
-                className="drop-shadow-2xl"
+                className="drop-shadow-2xl rounded-lg"
                 src="/images/resume.jpg"
                 width={2282}
                 height={1354}

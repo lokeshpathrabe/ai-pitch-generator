@@ -1,17 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { auth } from "@clerk/nextjs";
-import { Message } from "ai";
 import { useChat } from "ai/react";
 import React, { useEffect, useState } from "react";
 import { Resume } from "@prisma/client";
-import { prismadb } from "@/lib/prismadb";
 import SelectResume from "./ResumeSelector";
-import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import Pitch from "./Pitch";
 
@@ -46,8 +41,6 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
     Highlight softskills and matching domain/industry experience. 
     resumeJSON:${resume?.generatedJSON}
  `;
-
-    console.log(`${resume?.generatedJSON}`);
 
     setMessages([{ role: "system", content: prompt, id: "1" }]);
   }, [resumes, selectedResumeSlug, setMessages]);

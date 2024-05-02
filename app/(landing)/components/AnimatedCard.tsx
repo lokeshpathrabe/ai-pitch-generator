@@ -10,7 +10,6 @@ const AnimatedCard = ({ children }: React.PropsWithChildren<any>) => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && animatedDivRef.current) {
-            console.log("triggered", entry.target, animatedDivRef.current);
             animatedDivRef.current.classList.add(
               "translate-y-0",
               "transition-all",

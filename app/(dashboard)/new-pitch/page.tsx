@@ -14,7 +14,6 @@ const getResumes = async (accountId: string) => {
 
 async function NewPitch() {
   const account = await useCurrentAccount();
-
   if (account) {
     const resumes = await getResumes(account.id);
     return <PitchForm resumes={resumes} />;
