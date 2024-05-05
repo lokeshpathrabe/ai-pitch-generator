@@ -58,7 +58,7 @@ const ResumeForm = () => {
     isLoading,
     setMessages,
   } = useChat({
-    api: "https://6635f842415f4e1a5e25dda3.mockapi.io/opnenai",
+    api: "api/openai",
     onFinish: async (message: Message) => {
       const { resumeName, defaultResume } = getValues();
 
@@ -69,8 +69,6 @@ const ResumeForm = () => {
         generatedJSON: message.content,
         defaultResume: defaultResume === "true",
       });
-
-      console.log("resume", resume);
 
       if (resume) {
         router.refresh();
@@ -85,8 +83,6 @@ const ResumeForm = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const isValid = await trigger();
-
-    console.log("submitting form", isValid);
     isValid && handleOpenAIChatSubmit(e);
     e.preventDefault();
   };
@@ -129,13 +125,13 @@ const ResumeForm = () => {
             onChange: (v) => handleInputChange(v),
           })}
         />
+        {formState.errors.resume?.type && (
+          <FieldError
+            error={`Resume is required and should be between 200 to ${MAXIMUM_CHAR_LENGTH_RESUME} characters`}
+          />
+        )}
       </div>
 
-      {formState.errors.resume?.type && (
-        <FieldError
-          error={`Resume is required and should be between 200 to ${MAXIMUM_CHAR_LENGTH_RESUME} characters`}
-        />
-      )}
       <div className="col-span-12">
         <Button
           className="mt-2"

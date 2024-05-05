@@ -10,15 +10,14 @@ import { Resume } from "@prisma/client";
 const SelectResume = ({
   resumes,
   onChange,
-  selectedResumeSlug,
+  value,
 }: {
   resumes: Resume[];
   onChange: (slug: string) => void;
-  selectedResumeSlug: string;
+  value: string;
 }) => {
-  console.log("selectedResumeSlug", selectedResumeSlug);
   return (
-    <Select onValueChange={onChange} value={selectedResumeSlug}>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger className="w-[280px]">
         <SelectValue placeholder="Select a resume" />
       </SelectTrigger>

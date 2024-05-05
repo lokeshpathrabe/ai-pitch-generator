@@ -16,7 +16,7 @@ async function NewResume() {
   return (
     <div className="flex flex-col gap-24">
       <ResumeForm />
-      <ResumeList resumes={resumes} />
+      {resumes && resumes.length > 0 && <ResumeList resumes={resumes} />}
     </div>
   );
 }

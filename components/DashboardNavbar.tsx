@@ -15,15 +15,16 @@ import {
 } from "./ui/dropdown-menu";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
+import { MANAGE_RESUME_ROUTE, NEW_PITCH_ROUTE } from "@/lib/constants";
 
 const routes = [
   {
     name: "Generate Pitch",
-    path: "/new-pitch",
+    path: NEW_PITCH_ROUTE,
   },
   {
     name: "Manage Resume",
-    path: "/manage-resume",
+    path: MANAGE_RESUME_ROUTE,
   },
 ];
 

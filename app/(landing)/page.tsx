@@ -14,6 +14,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import AnimatedCard from "./components/AnimatedCard";
+import { NEW_PITCH_ROUTE } from "@/lib/constants";
 
 function LandingPage() {
   return (
@@ -49,7 +50,7 @@ const Hero = () => {
         chances of landing your dream job.
       </p>
       <div className="mt-5 flex max-w-4xl flex-col flex-wrap items-center justify-around sm:w-full sm:flex-row">
-        <Link href="/new-pitch">
+        <Link href={NEW_PITCH_ROUTE}>
           <Button
             variant="default"
             className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:600px_600px]"
@@ -207,7 +208,7 @@ const Pricing = () => {
             <p className="mb-4 text-center text-muted-foreground">
               Generate up to 5 Pitch
             </p>
-            <Link href="/new-pitch">
+            <Link href={NEW_PITCH_ROUTE}>
               <Button variant="outline">Get Started</Button>
             </Link>
           </CardContent>
@@ -221,7 +222,7 @@ const Pricing = () => {
             <p className="mb-4 text-center text-muted-foreground">
               Create Unlimited AI Pitch
             </p>
-            <Link href="/new-pitch">
+            <Link href={NEW_PITCH_ROUTE}>
               <Button>Get Started</Button>
             </Link>
           </CardContent>
@@ -240,7 +241,7 @@ const CallToAction = () => {
       <p className="mt-4 max-w-2xl text-lg text-muted-foreground sm:text-xl md:text-2xl">
         Join the AI revolution and start applying for jobs with best pitch.
       </p>
-      <Link href="/new-pitch">
+      <Link href={NEW_PITCH_ROUTE}>
         <Button className="text-sm px-4 py-5 sm:text-lg mt-4">
           Create Your First AI Pitch
         </Button>

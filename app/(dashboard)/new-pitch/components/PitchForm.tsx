@@ -9,42 +9,67 @@ import { Resume } from "@prisma/client";
 import SelectResume from "./ResumeSelector";
 import { Switch } from "@/components/ui/switch";
 import Pitch from "./Pitch";
+import { AddResume } from "./AddResume";
+import { SymbolIcon } from "@radix-ui/react-icons";
+import { useUser } from "@clerk/nextjs";
+import { Controller, useForm } from "react-hook-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FieldError } from "@/components/ui/fieldError";
+import {
+  MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION,
+  MAXIMUM_CHAR_LENGTH_RESUME,
+} from "@/lib/constants";
+
+interface IPitchForm {
+  resume: string;
+  generateThirdPerson: boolean;
+  jobDescription: string;
+}
 
 const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
+  const user = useUser();
+  const { register, control, setValue, getValues, reset, formState, trigger } =
+    useForm<IPitchForm>();
   const [pitch, setPitch] = useState<string>();
-  const [selectedResumeSlug, setSelectedResumeSlug] = useState<string>("");
-  const [jobDescription, setJobDescription] = useState<string>("");
-  const [thirdPerson, setThirdPerson] = useState<boolean>(false);
   const {
     messages,
     handleSubmit: handleOpenAIChatSubmit,
-    setInput,
+    handleInputChange,
     isLoading,
     setMessages,
   } = useChat({
     api: "/api/openai",
+    onFinish: () => {
+      reset();
+    },
   });
+
+  const { resume, generateThirdPerson } = getValues();
 
   useEffect(() => {
     const defaultResume = resumes.find((resume) => resume.default);
-    console.log("settings slug", defaultResume?.slug);
-    setSelectedResumeSlug(defaultResume?.slug || "");
-  }, [resumes]);
+    setValue("resume", defaultResume?.slug || "");
+  }, [resumes, setValue]);
 
   useEffect(() => {
-    const resume = resumes.find((resume) => resume.slug === selectedResumeSlug);
+    const selectedResume = resumes.find((r) => r.slug === resume);
 
     const prompt = `Given the candidates skills in JSON format called resumeJSON with skills and experience of candidate and job description in text format, generate a job pitch for the candidate satisfying the following requirements.
     Identify required and optional skills from job description.
     Generate a job pitch that should highlight candidate skills matching for the job description. 
+    ${
+      generateThirdPerson
+        ? `Generate pitch in third person and user's name ${user.user?.fullName}`
+        : "Generate pitch in first person"
+    }
     If candidate has used required skills from job description in its previous experience then highlight that experience (include company name and role played from resumeJSON).
     If the job requires some skills that candidate does not have then show willingness to learn. Do not add skills or experience that is not listed in resume json
     Highlight softskills and matching domain/industry experience. 
-    resumeJSON:${resume?.generatedJSON}
+    resumeJSON:${selectedResume?.generatedJSON}
  `;
 
     setMessages([{ role: "system", content: prompt, id: "1" }]);
-  }, [resumes, selectedResumeSlug, setMessages]);
+  }, [resumes, resume, setMessages, user.user?.fullName, generateThirdPerson]);
 
   useEffect(() => {
     const generatedPitch = messages.find(
@@ -55,48 +80,86 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
     }
   }, [isLoading, messages]);
 
-  const handleChatInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setJobDescription(e.target.value);
-    setInput(e.target.value);
-  };
-
   return (
     <div className="grid grid-cols-12 gap-4 h-full">
-      {isLoading && (
-        <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full bg-gray-300 bg-opacity-50">
-          <p className="text-center">loading...</p>
-        </div>
-      )}
-      <form
-        className="col-span-12 sm:col-span-6 space-y-4"
-        onSubmit={handleOpenAIChatSubmit}
-      >
-        <div className="col-span-12 flex flex-col gap-2">
-          <Label htmlFor="third-person">Resume</Label>
-          <SelectResume
-            resumes={resumes}
-            selectedResumeSlug={selectedResumeSlug || ""}
-            onChange={setSelectedResumeSlug}
-          />
-        </div>
-        <div className="flex items-center space-x-2 ">
-          <Label htmlFor="third-person">Generate pitch in third person</Label>
-          <Switch checked={thirdPerson} onCheckedChange={setThirdPerson} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="resume">Job Description</Label>
-          <Textarea
-            name="job-description"
-            rows={10}
-            value={jobDescription}
-            onChange={handleChatInputChange}
-            disabled={isLoading}
-          />
-        </div>
-        <Button type="submit" aria-label="Generate Pitch" disabled={isLoading}>
-          Generate Pitch
-        </Button>
-      </form>
+      <div className="col-span-12 sm:col-span-6 space-y-4">
+        {resumes && resumes.length > 0 ? (
+          <form
+            className="col-span-12 sm:col-span-6 space-y-4"
+            onSubmit={async (e) => {
+              const isValid = await trigger();
+              if (isValid) {
+                handleOpenAIChatSubmit(e);
+              }
+              e.preventDefault();
+            }}
+          >
+            <div className="col-span-12 flex flex-col gap-2">
+              <Label htmlFor="third-person">Resume</Label>
+              <Controller
+                control={control}
+                name="resume"
+                render={({ field }) => (
+                  <SelectResume
+                    resumes={resumes}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
+            <div className="flex items-center space-x-2 ">
+              <Label htmlFor="third-person">
+                Generate pitch in third person
+              </Label>
+              <Controller
+                control={control}
+                name="generateThirdPerson"
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="resume">Job Description</Label>
+              <Textarea
+                rows={10}
+                disabled={isLoading}
+                {...register("jobDescription", {
+                  required: true,
+                  minLength: 200,
+                  maxLength: MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION,
+                  onChange: (e) => handleInputChange(e),
+                })}
+              />
+              {formState.errors.jobDescription?.type && (
+                <FieldError
+                  error={`Resume is required and should be between 200 to ${MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION} characters`}
+                />
+              )}
+            </div>
+            <Button
+              type="submit"
+              aria-label="Generate Pitch"
+              disabled={isLoading}
+              aria-disabled={isLoading}
+            >
+              {isLoading && (
+                <div className="flex gap-2 items-center">
+                  <SymbolIcon className="animate-spin" />
+                  ai magic in progress...
+                </div>
+              )}
+              {!isLoading && "Generate Pitch"}
+            </Button>
+          </form>
+        ) : (
+          <AddResume />
+        )}
+      </div>
       <div className="col-span-12 sm:col-span-6">
         <Pitch disabled={isLoading} pitch={pitch} />
       </div>
