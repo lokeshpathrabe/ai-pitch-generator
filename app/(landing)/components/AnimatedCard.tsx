@@ -7,9 +7,12 @@ const AnimatedCard = ({ children }: React.PropsWithChildren<any>) => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      console.log("IntersectionObserver in window", animatedDivRef.current);
       const observer = new IntersectionObserver((entries) => {
+        console.log("entries", entries);
         entries.forEach((entry) => {
           if (entry.isIntersecting && animatedDivRef.current) {
+            animatedDivRef.current.classList.remove("translate-y-32");
             animatedDivRef.current.classList.add(
               "translate-y-0",
               "transition-all",
@@ -26,7 +29,7 @@ const AnimatedCard = ({ children }: React.PropsWithChildren<any>) => {
   }, []);
 
   return (
-    <div ref={animatedDivRef} className="translate-y-10">
+    <div ref={animatedDivRef} className="translate-y-32">
       {children}
     </div>
   );

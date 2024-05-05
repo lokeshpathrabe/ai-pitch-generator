@@ -5,6 +5,7 @@ import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import { SignInButton } from "@clerk/nextjs";
 
 const getResumes = async (accountId: string) => {
+  "use server";
   return prismadb.resume.findMany({
     where: {
       accountId,

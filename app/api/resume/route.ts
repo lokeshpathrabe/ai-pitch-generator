@@ -2,6 +2,7 @@ import { prismadb } from "@/lib/prismadb";
 import { currentUser } from "@clerk/nextjs";
 import { Resume } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -38,6 +39,7 @@ export async function POST(request: Request) {
         accountId: account?.id,
       },
     });
+    // revalidatePath("/manage-resume");
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {

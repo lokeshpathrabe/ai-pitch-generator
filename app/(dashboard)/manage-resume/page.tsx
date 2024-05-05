@@ -1,16 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ResumeForm from "./components/ResumeForm";
-import { prismadb } from "@/lib/prismadb";
 import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import ResumeList from "./components/ResumeList";
-
-const getResumes = async (accountId: string) => {
-  return prismadb.resume.findMany({
-    where: {
-      accountId,
-    },
-  });
-};
+import { getResumes } from "@/app/actions/resume";
 
 async function NewResume() {
   const account = await useCurrentAccount();
@@ -20,8 +12,9 @@ async function NewResume() {
   }
 
   const resumes = await getResumes(account?.id);
+
   return (
-    <div className="flex flex-col mx-auto">
+    <div className="flex flex-col gap-24">
       <ResumeForm />
       <ResumeList resumes={resumes} />
     </div>

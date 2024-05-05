@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import Pitch from "./Pitch";
 
 const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
-  const [pitch, setPitch] = useState<string>("");
+  const [pitch, setPitch] = useState<string>();
   const [selectedResumeSlug, setSelectedResumeSlug] = useState<string>("");
   const [jobDescription, setJobDescription] = useState<string>("");
   const [thirdPerson, setThirdPerson] = useState<boolean>(false);
@@ -27,6 +27,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
 
   useEffect(() => {
     const defaultResume = resumes.find((resume) => resume.default);
+    console.log("settings slug", defaultResume?.slug);
     setSelectedResumeSlug(defaultResume?.slug || "");
   }, [resumes]);
 
@@ -67,10 +68,10 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
         </div>
       )}
       <form
-        className="col-span-12 sm:col-span-6 space-y-4 p-8"
+        className="col-span-12 sm:col-span-6 space-y-4"
         onSubmit={handleOpenAIChatSubmit}
       >
-        <div className="col-span-12">
+        <div className="col-span-12 flex flex-col gap-2">
           <Label htmlFor="third-person">Resume</Label>
           <SelectResume
             resumes={resumes}
@@ -78,11 +79,11 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
             onChange={setSelectedResumeSlug}
           />
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 ">
           <Label htmlFor="third-person">Generate pitch in third person</Label>
           <Switch checked={thirdPerson} onCheckedChange={setThirdPerson} />
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="resume">Job Description</Label>
           <Textarea
             name="job-description"
@@ -96,7 +97,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
           Generate Pitch
         </Button>
       </form>
-      <div className="col-span-12 sm:col-span-6 space-y-2">
+      <div className="col-span-12 sm:col-span-6">
         <Pitch disabled={isLoading} pitch={pitch} />
       </div>
     </div>

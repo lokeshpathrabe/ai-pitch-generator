@@ -34,24 +34,26 @@ export default LandingPage;
 const Hero = () => {
   return (
     <div className="mx-4 mb-14 mt-6 flex flex-1 flex-col items-center text-center sm:mb-12 md:mb-32 md:mt-20">
-      <h1 className="max-w-5xl text-2xl font-bold sm:text-4xl md:text-6xl">
-        Grab Every Job Opportunity with{" "}
-        <span className="bg-gradient-to-r from-red-400 to-purple-600 bg-clip-text text-transparent">
-          {" "}
-          AI Generated Pitch{" "}
-        </span>
+      <h1 className="max-w-5xl text-1xl font-bold sm:text-2xl md:text-3xl">
+        Grab Every Job Opportunity with
+      </h1>
+      <h1 className="bg-gradient-to-r from-red-400 to-purple-600 bg-clip-text text-transparent text-2xl sm:text-4xl md:text-6xl">
+        ai pitch
       </h1>
 
-      <p className="sm:text-md mt-5 max-w-2xl text-sm text-muted-foreground  md:text-xl">
+      <p className="sm:text-md mt-8 max-w-2xl text-sm text-muted-foreground md:text-xl">
         AI Assisted Job Pitch Generator is a powerful tool that helps job
         seekers create compelling pitches to impress potential employers. With
         AI technology, you can effortlessly generate personalized pitches that
         highlight your skills, experience, and achievements, increasing your
         chances of landing your dream job.
       </p>
-      <div className="mt-3 flex max-w-4xl flex-col flex-wrap items-center justify-around sm:w-full sm:flex-row">
+      <div className="mt-5 flex max-w-4xl flex-col flex-wrap items-center justify-around sm:w-full sm:flex-row">
         <Link href="/new-pitch">
-          <Button variant="default" className="md:text-xl">
+          <Button
+            variant="default"
+            className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:600px_600px]"
+          >
             Generate Your First AI Pitch
           </Button>
         </Link>
@@ -100,7 +102,7 @@ const FeatureCard = ({
         {icon}
       </div>
       <h2 className="mt-4 text-xl font-light text-purple-500">{title}</h2>
-      <p className="mt-2 italic text-gray-600">{description}</p>
+      <p className="mt-2 text-gray-600">{description}</p>
     </div>
   );
 };

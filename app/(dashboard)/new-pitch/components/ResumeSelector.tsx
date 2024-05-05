@@ -16,6 +16,7 @@ const SelectResume = ({
   onChange: (slug: string) => void;
   selectedResumeSlug: string;
 }) => {
+  console.log("selectedResumeSlug", selectedResumeSlug);
   return (
     <Select onValueChange={onChange} value={selectedResumeSlug}>
       <SelectTrigger className="w-[280px]">
