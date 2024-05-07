@@ -1,18 +1,19 @@
+"use client";
 import { SignInButton, UserButton, currentUser } from "@clerk/nextjs";
-import { User } from "@clerk/nextjs/api";
 import React from "react";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import Logo from "@/components/Logo";
+import { Account } from "@prisma/client";
+import { CreditsMenu } from "@/components/CreditsMenu";
 
-async function LandingPageNavbar() {
-  const user: User | null = await currentUser();
-
+function LandingPageNavbar({ account }: { account: Account | null }) {
   return (
     <nav className="flex w-screen items-center justify-between p-4">
       <Logo />
       <div className="text-purple-500 font-semibold text-md">
-        {user ? (
+        {account ? (
           <div className="flex gap-x-4 items-center">
+            <CreditsMenu account={account} />
             <ThemeSelector />
             <UserButton />
           </div>

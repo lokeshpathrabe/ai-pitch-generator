@@ -13,12 +13,9 @@ import { AddResume } from "./AddResume";
 import { SymbolIcon } from "@radix-ui/react-icons";
 import { useUser } from "@clerk/nextjs";
 import { Controller, useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FieldError } from "@/components/ui/fieldError";
-import {
-  MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION,
-  MAXIMUM_CHAR_LENGTH_RESUME,
-} from "@/lib/constants";
+import { MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION } from "@/lib/constants";
+import { useAccount } from "@/components/AccountProvider";
 
 interface IPitchForm {
   resume: string;
@@ -28,6 +25,8 @@ interface IPitchForm {
 
 const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
   const user = useUser();
+  const account = useAccount();
+
   const { register, control, setValue, getValues, reset, formState, trigger } =
     useForm<IPitchForm>();
   const [pitch, setPitch] = useState<string>();
@@ -124,7 +123,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="resume">Job Description</Label>
+              <Label htmlFor="resume">Job Description ()</Label>
               <Textarea
                 rows={10}
                 disabled={isLoading}
@@ -153,7 +152,8 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
                   ai magic in progress...
                 </div>
               )}
-              {!isLoading && "Generate Pitch"}
+              {!isLoading &&
+                `Generate Pitch (${account?.credits} credits left)`}
             </Button>
           </form>
         ) : (

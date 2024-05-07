@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +16,8 @@ import {
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { MANAGE_RESUME_ROUTE, NEW_PITCH_ROUTE } from "@/lib/constants";
+import { useAccount } from "./AccountProvider";
+import { CreditsMenu } from "./CreditsMenu";
 
 const routes = [
   {
@@ -49,6 +51,7 @@ function MobileNavMenu() {
 
 function DashboardNavBar() {
   const pathname = usePathname();
+  const account = useAccount();
 
   return (
     <div className="p-4 flex justify-between items-center text-purple-500 border-b-2">
@@ -61,8 +64,8 @@ function DashboardNavBar() {
         </Link>
       </div>
 
-      <div className="flex gap-x-10 text-md items-center">
-        <div className="space-x-4 hidden sm:flex">
+      <div className="flex text-md items-center">
+        <div className="space-x-4 hidden sm:flex px-8">
           {routes.map((route, idx) => (
             <Link
               key={idx}
@@ -77,6 +80,7 @@ function DashboardNavBar() {
         </div>
 
         <div className="flex gap-x-4">
+          <CreditsMenu account={account} />
           <ThemeSelector />
           <UserButton afterSignOutUrl="/" />
         </div>

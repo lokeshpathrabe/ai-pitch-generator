@@ -3,9 +3,9 @@ import { prismadb } from "@/lib/prismadb";
 import PitchForm from "./components/PitchForm";
 import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import { SignInButton } from "@clerk/nextjs";
+import { useAccount } from "@/components/AccountProvider";
 
 const getResumes = async (accountId: string) => {
-  "use server";
   return prismadb.resume.findMany({
     where: {
       accountId,

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { HiSparkles } from "react-icons/hi";
 import { GiFiles } from "react-icons/gi";
 import { PiNotePencilBold } from "react-icons/pi";
@@ -43,11 +43,10 @@ const Hero = () => {
       </h1>
 
       <p className="sm:text-md mt-8 max-w-2xl text-sm text-muted-foreground md:text-xl">
-        AI Assisted Job Pitch Generator is a powerful tool that helps job
-        seekers create compelling pitches to impress potential employers. With
-        AI technology, you can effortlessly generate personalized pitches that
-        highlight your skills, experience, and achievements, increasing your
-        chances of landing your dream job.
+        AI assisted pitch generator is a powerful tool that helps job seekers
+        create personalized pitches that highlight your skills, experience, and
+        achievements, increasing your chances of landing your dream job and
+        stand out from the crowd.
       </p>
       <div className="mt-5 flex max-w-4xl flex-col flex-wrap items-center justify-around sm:w-full sm:flex-row">
         <Link href={NEW_PITCH_ROUTE}>
