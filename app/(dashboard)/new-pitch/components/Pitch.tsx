@@ -1,7 +1,4 @@
-import { RichTextEditor } from "@/components/RickTextEditor";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { ClipboardCopyIcon } from "@radix-ui/react-icons";
 
 const Pitch = ({ disabled, pitch }: { disabled: boolean; pitch?: string }) => {
@@ -18,18 +15,7 @@ const Pitch = ({ disabled, pitch }: { disabled: boolean; pitch?: string }) => {
           <ClipboardCopyIcon />
         </Button>
       </div>
-      <div className="h-full">
-        <Textarea
-          rows={16}
-          name="generatedJson"
-          disabled={disabled}
-          value={pitch}
-          className="bg-background text-foreground"
-          readOnly
-          aria-readonly
-          defaultValue={"Your pitch will appear here"}
-        />
-      </div>
+      {pitch}
     </div>
   );
 };

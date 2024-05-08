@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ResumeForm from "./components/ResumeForm";
 import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import ResumeList from "./components/ResumeList";
@@ -16,7 +16,7 @@ async function NewResume() {
   return (
     <div className="flex flex-col gap-24">
       <ResumeForm />
-      {resumes && resumes.length > 0 && <ResumeList resumes={resumes} />}
+      <ResumeList resumes={resumes} />
     </div>
   );
 }

@@ -60,12 +60,12 @@ const ResumeForm = () => {
   } = useChat({
     api: "api/openai",
     onFinish: async (message: Message) => {
-      const { resumeName, defaultResume } = getValues();
+      const { resumeName, defaultResume, resume: resumeContent } = getValues();
 
       const resume = await createResume({
         name: resumeName,
         slug: resumeName,
-        description: message.content,
+        description: resumeContent,
         generatedJSON: message.content,
         defaultResume: defaultResume === "true",
       });
@@ -112,7 +112,7 @@ const ResumeForm = () => {
           })}
         />
       </div>
-      <div className="col-span-6 gap-2 flex flex-col">
+      <div className="col-span-12 gap-2 flex flex-col">
         <Label htmlFor="resume">{`Resume (${input.length} characters)`}</Label>
         <Textarea
           rows={10}

@@ -38,7 +38,7 @@ const Hero = () => {
       <h1 className="max-w-5xl text-1xl font-bold sm:text-2xl md:text-3xl">
         Grab Every Job Opportunity with
       </h1>
-      <h1 className="bg-gradient-to-r from-red-400 to-purple-600 bg-clip-text text-transparent text-2xl sm:text-4xl md:text-6xl">
+      <h1 className="bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:500px_500px] bg-clip-text text-transparent text-2xl sm:text-4xl md:text-6xl">
         ai pitch
       </h1>
 
@@ -52,7 +52,7 @@ const Hero = () => {
         <Link href={NEW_PITCH_ROUTE}>
           <Button
             variant="default"
-            className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:600px_600px]"
+            className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:500px_500px]"
           >
             Generate Your First AI Pitch
           </Button>

@@ -4,7 +4,7 @@ import React from "react";
 
 const context = React.createContext<Account | null>(null);
 
-export async function AccountProvider({
+export function AccountProvider({
   children,
   account,
 }: {

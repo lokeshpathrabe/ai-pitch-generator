@@ -1,3 +1,4 @@
+"use client";
 import { markDefault } from "@/app/actions/resume";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ function MarkDefault({ id }: { id: string }) {
   return loading ? (
     <span>loading</span>
   ) : (
-    <Button variant={"secondary"} className="font-normal" onClick={onClick}>
+    <Button variant={"outline"} className="font-normal" onClick={onClick}>
       Mark as default
     </Button>
   );
@@ -30,7 +31,9 @@ export function ResumeRow({ resume }: { resume: Resume }) {
     <TableRow key={resume.id}>
       <TableCell>{resume.name}</TableCell>
       <TableCell>{resume.description.substring(0, 200)}...</TableCell>
-      <TableCell>{resume.createdAt.toLocaleString()}</TableCell>
+      <TableCell>
+        {Intl.DateTimeFormat("en-US").format(new Date(resume.updatedAt))}
+      </TableCell>
       <TableCell>
         {resume.default ? (
           <Badge>Default</Badge>

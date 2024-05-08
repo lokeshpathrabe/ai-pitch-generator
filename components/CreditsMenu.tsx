@@ -13,7 +13,7 @@ export function CreditsMenu({ account }: { account: Account | null }) {
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content
-          className="rounded p-5 w-[260px] bg-background border will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+          className="rounded p-5 w-[260px] bg-secondary border border-border will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
           sideOffset={5}
         >
           <div className="flex items-center justify-between">

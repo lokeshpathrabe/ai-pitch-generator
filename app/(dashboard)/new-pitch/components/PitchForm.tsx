@@ -43,7 +43,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
     },
   });
 
-  const { resume, generateThirdPerson } = getValues();
+  const { resume, generateThirdPerson, jobDescription } = getValues();
 
   useEffect(() => {
     const defaultResume = resumes.find((resume) => resume.default);
@@ -80,66 +80,66 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
   }, [isLoading, messages]);
 
   return (
-    <div className="grid grid-cols-12 gap-4 h-full">
-      <div className="col-span-12 sm:col-span-6 space-y-4">
-        {resumes && resumes.length > 0 ? (
-          <form
-            className="col-span-12 sm:col-span-6 space-y-4"
-            onSubmit={async (e) => {
-              const isValid = await trigger();
-              if (isValid) {
-                handleOpenAIChatSubmit(e);
-              }
-              e.preventDefault();
-            }}
-          >
-            <div className="col-span-12 flex flex-col gap-2">
-              <Label htmlFor="third-person">Resume</Label>
-              <Controller
-                control={control}
-                name="resume"
-                render={({ field }) => (
-                  <SelectResume
-                    resumes={resumes}
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-            <div className="flex items-center space-x-2 ">
-              <Label htmlFor="third-person">
-                Generate pitch in third person
-              </Label>
-              <Controller
-                control={control}
-                name="generateThirdPerson"
-                render={({ field }) => (
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="resume">Job Description ()</Label>
-              <Textarea
-                rows={10}
-                disabled={isLoading}
-                {...register("jobDescription", {
-                  required: true,
-                  minLength: 200,
-                  maxLength: MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION,
-                  onChange: (e) => handleInputChange(e),
-                })}
-              />
-              {formState.errors.jobDescription?.type && (
-                <FieldError
-                  error={`Resume is required and should be between 200 to ${MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION} characters`}
+    <div className="flex flex-col gap-16">
+      {resumes && resumes.length > 0 ? (
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={async (e) => {
+            const isValid = await trigger();
+            if (isValid) {
+              handleOpenAIChatSubmit(e);
+            }
+            e.preventDefault();
+          }}
+        >
+          <div className="flex flex-col gap-2 w-full">
+            <Label htmlFor="third-person">Resume</Label>
+            <Controller
+              control={control}
+              name="resume"
+              render={({ field }) => (
+                <SelectResume
+                  resumes={resumes}
+                  value={field.value}
+                  onChange={field.onChange}
                 />
               )}
-            </div>
+            />
+          </div>
+          <div className="flex items-center space-x-2 ">
+            <Label htmlFor="third-person">Generate pitch in third person</Label>
+            <Controller
+              control={control}
+              name="generateThirdPerson"
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="resume">{`Job Description (${
+              jobDescription?.length || 0
+            } characters)`}</Label>
+            <Textarea
+              rows={10}
+              disabled={isLoading}
+              {...register("jobDescription", {
+                required: true,
+                minLength: 200,
+                maxLength: MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION,
+                onChange: (e) => handleInputChange(e),
+              })}
+            />
+            {formState.errors.jobDescription?.type && (
+              <FieldError
+                error={`Resume is required and should be between 200 to ${MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION} characters`}
+              />
+            )}
+          </div>
+          <div>
             <Button
               type="submit"
               aria-label="Generate Pitch"
@@ -155,14 +155,12 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
               {!isLoading &&
                 `Generate Pitch (${account?.credits} credits left)`}
             </Button>
-          </form>
-        ) : (
-          <AddResume />
-        )}
-      </div>
-      <div className="col-span-12 sm:col-span-6">
-        <Pitch disabled={isLoading} pitch={pitch} />
-      </div>
+          </div>
+        </form>
+      ) : (
+        <AddResume />
+      )}
+      {pitch && <Pitch disabled={isLoading} pitch={pitch} />}
     </div>
   );
 };

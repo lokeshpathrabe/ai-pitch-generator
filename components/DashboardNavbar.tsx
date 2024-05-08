@@ -1,7 +1,6 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -16,8 +15,9 @@ import {
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { MANAGE_RESUME_ROUTE, NEW_PITCH_ROUTE } from "@/lib/constants";
-import { useAccount } from "./AccountProvider";
 import { CreditsMenu } from "./CreditsMenu";
+import { twMerge } from "tailwind-merge";
+import { Account } from "@prisma/client";
 
 const routes = [
   {
@@ -49,12 +49,11 @@ function MobileNavMenu() {
   );
 }
 
-function DashboardNavBar() {
+function DashboardNavBar({ account }: { account: Account | null }) {
   const pathname = usePathname();
-  const account = useAccount();
 
   return (
-    <div className="p-4 flex justify-between items-center text-purple-500 border-b-2">
+    <div className="p-4 flex justify-between items-center border-b-2">
       <div className="flex gap-2 items-center">
         <div className="sm:hidden">
           <MobileNavMenu />
@@ -65,14 +64,15 @@ function DashboardNavBar() {
       </div>
 
       <div className="flex text-md items-center">
-        <div className="space-x-4 hidden sm:flex px-8">
+        <div className="space-x-4 hidden sm:flex px-8 ">
           {routes.map((route, idx) => (
             <Link
               key={idx}
               href={route.path}
-              className={
-                pathname === route.path ? "border-b border-purple-300" : ""
-              }
+              className={twMerge(
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md text-accent",
+                pathname === route.path ? "border-b border-accent" : ""
+              )}
             >
               {route.name}
             </Link>

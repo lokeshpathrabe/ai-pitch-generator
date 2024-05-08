@@ -1,21 +1,17 @@
 "use client";
-import { markDefault } from "@/app/actions/resume";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Resume } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
 import { ResumeRow } from "./ResumeRow";
 
 const ResumeList = ({ resumes }: { resumes: Resume[] }) => {
+  if (!resumes) return null;
+
   return (
     <Table>
       <TableHeader>
@@ -28,9 +24,7 @@ const ResumeList = ({ resumes }: { resumes: Resume[] }) => {
       </TableHeader>
       <TableBody>
         {resumes.map((resume) => (
-          <Suspense key={Math.random()} fallback={<p>loading...</p>}>
-            <ResumeRow resume={resume} />
-          </Suspense>
+          <ResumeRow key={resume.id} resume={resume} />
         ))}
       </TableBody>
     </Table>
