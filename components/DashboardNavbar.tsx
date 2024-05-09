@@ -63,19 +63,22 @@ function DashboardNavBar({ account }: { account: Account | null }) {
         </Link>
       </div>
 
-      <div className="flex text-md items-center">
-        <div className="space-x-4 hidden sm:flex px-8 ">
+      <div className="flex text-md items-center gap-24">
+        <div className="flex">
           {routes.map((route, idx) => (
-            <Link
-              key={idx}
-              href={route.path}
-              className={twMerge(
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md text-accent",
-                pathname === route.path ? "border-b border-accent" : ""
-              )}
-            >
-              {route.name}
-            </Link>
+            <div key={idx} className="p-1 px-4 even:border-l">
+              <Link
+                href={route.path}
+                className={twMerge(
+                  "relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-input py-1 transition-all duration-200 ease-in-out hover:text-accent",
+                  pathname === route.path
+                    ? "after:content-[''] after:absolute after:h-0.5 after:bg-accent after:bottom-0 after:left-0 after:right-0 text-accent"
+                    : ""
+                )}
+              >
+                {route.name}
+              </Link>
+            </div>
           ))}
         </div>
 

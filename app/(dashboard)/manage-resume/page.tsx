@@ -1,17 +1,10 @@
 import React from "react";
 import ResumeForm from "./components/ResumeForm";
-import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import ResumeList from "./components/ResumeList";
-import { getResumes } from "@/app/actions/resume";
+import { getResumes } from "@/app/queries/resume";
 
 async function NewResume() {
-  const account = await useCurrentAccount();
-
-  if (!account) {
-    return <div>No Account found</div>;
-  }
-
-  const resumes = await getResumes(account?.id);
+  const resumes = await getResumes();
 
   return (
     <div className="flex flex-col gap-24">

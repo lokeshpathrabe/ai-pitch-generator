@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Message } from "ai";
 import { useChat } from "ai/react";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 import { MAXIMUM_CHAR_LENGTH_RESUME } from "@/lib/constants";
@@ -15,6 +14,8 @@ import { FieldError } from "@/components/ui/fieldError";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { createResume } from "@/app/actions/resume";
+import { useAccount } from "@/components/AccountProvider";
+import { updateAccountCredits } from "@/app/actions/account";
 
 const prompt = `Given a candidate's resume, focus on identifying and extracting software development skills. Provide a detailed list or description of the candidate's technical skills related to software development, including programming languages, frameworks, tools, soft skills, industry experiences, contry visa and work permit that candidate has and other relevant technologies mentioned in the resume. Additionally, highlight any notable strengths related to software development, such as problem-solving abilities, collaboration skills, and project management experience. 
 Please format the output in given valid json. The json should summaries all skills on the root level and project specific skills under "experience" array with start and end date of project.
@@ -48,34 +49,44 @@ interface IResumeForm {
 }
 
 const ResumeForm = () => {
+  const [updatingAccount, setUpdatingAccount] = useState(false);
   const { register, formState, trigger, getValues } = useForm<IResumeForm>();
   const router = useRouter();
+  const account = useAccount();
 
   const {
     handleSubmit: handleOpenAIChatSubmit,
     input,
     handleInputChange,
-    isLoading,
+    isLoading: generatingResumeJson,
     setMessages,
   } = useChat({
     api: "api/openai",
     onFinish: async (message: Message) => {
       const { resumeName, defaultResume, resume: resumeContent } = getValues();
+      setUpdatingAccount(true);
 
-      const resume = await createResume({
-        name: resumeName,
-        slug: resumeName,
-        description: resumeContent,
-        generatedJSON: message.content,
-        defaultResume: defaultResume === "true",
-      });
+      try {
+        const resume = await createResume({
+          name: resumeName,
+          slug: resumeName,
+          description: resumeContent,
+          generatedJSON: message.content,
+          defaultResume: defaultResume === "true",
+        });
 
-      if (resume) {
-        router.refresh();
-        toast.success("Resume saved successfully");
+        if (resume) {
+          toast.success("Resume saved successfully");
+          setUpdatingAccount(false);
+          router.refresh();
+        }
+      } catch (e) {
+        toast.error("Failed to save resume");
       }
     },
   });
+
+  const isLoading = generatingResumeJson || updatingAccount;
 
   useEffect(() => {
     setMessages([{ role: "system", content: prompt, id: "1" }]);
@@ -86,6 +97,8 @@ const ResumeForm = () => {
     isValid && handleOpenAIChatSubmit(e);
     e.preventDefault();
   };
+
+  const creditsAvailable = account?.credits > 0;
 
   return (
     <form className="grid grid-cols-12 gap-4" onSubmit={onSubmit}>
@@ -133,11 +146,13 @@ const ResumeForm = () => {
       </div>
 
       <div className="col-span-12">
+        <div>Create new resume costs 1 credit</div>
         <Button
           className="mt-2"
           type="submit"
           aria-label="Save"
-          disabled={isLoading}
+          disabled={isLoading || !creditsAvailable}
+          aria-disabled={isLoading || !creditsAvailable}
         >
           Save
         </Button>

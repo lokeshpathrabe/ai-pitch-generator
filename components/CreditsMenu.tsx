@@ -9,7 +9,7 @@ export function CreditsMenu({ account }: { account: Account | null }) {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
-        <Button variant={"outline"}>{`${account?.credits} credits`}</Button>
+        <Button variant={"outline"}>{`${account?.credits} Credits`}</Button>
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content

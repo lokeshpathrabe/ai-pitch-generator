@@ -16,6 +16,9 @@ import { Controller, useForm } from "react-hook-form";
 import { FieldError } from "@/components/ui/fieldError";
 import { MAXIMUM_CHAR_LENGTH_JOB_DESCRIPTION } from "@/lib/constants";
 import { useAccount } from "@/components/AccountProvider";
+import { updateAccountCredits } from "@/app/actions/account";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface IPitchForm {
   resume: string;
@@ -24,9 +27,10 @@ interface IPitchForm {
 }
 
 const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
+  const [updatingAccount, setUpdatingAccount] = useState(false);
   const user = useUser();
   const account = useAccount();
-
+  const router = useRouter();
   const { register, control, setValue, getValues, reset, formState, trigger } =
     useForm<IPitchForm>();
   const [pitch, setPitch] = useState<string>();
@@ -34,14 +38,30 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
     messages,
     handleSubmit: handleOpenAIChatSubmit,
     handleInputChange,
-    isLoading,
+    isLoading: generatingPitch,
     setMessages,
   } = useChat({
     api: "/api/openai",
-    onFinish: () => {
+    onFinish: async () => {
+      console.log("onfinish");
       reset();
+      setUpdatingAccount(true);
+      try {
+        await updateAccountCredits(
+          account.id,
+          Math.max(account?.credits - 1, 0)
+        );
+      } catch (e) {
+        console.log(e);
+        toast.error("Failed to update account credits");
+      } finally {
+        setUpdatingAccount(false);
+        router.refresh();
+      }
     },
   });
+
+  const isLoading = generatingPitch || updatingAccount;
 
   const { resume, generateThirdPerson, jobDescription } = getValues();
 
@@ -79,6 +99,8 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
     }
   }, [isLoading, messages]);
 
+  const creditAvailable = account?.credits > 0;
+
   return (
     <div className="flex flex-col gap-16">
       {resumes && resumes.length > 0 ? (
@@ -86,7 +108,7 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
           className="flex flex-col gap-4"
           onSubmit={async (e) => {
             const isValid = await trigger();
-            if (isValid) {
+            if (isValid && creditAvailable) {
               handleOpenAIChatSubmit(e);
             }
             e.preventDefault();
@@ -143,8 +165,8 @@ const PitchForm = ({ resumes }: { resumes: Resume[] }) => {
             <Button
               type="submit"
               aria-label="Generate Pitch"
-              disabled={isLoading}
-              aria-disabled={isLoading}
+              disabled={isLoading || !creditAvailable}
+              aria-disabled={isLoading || !creditAvailable}
             >
               {isLoading && (
                 <div className="flex gap-2 items-center">

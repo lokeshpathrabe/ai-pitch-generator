@@ -1,15 +1,21 @@
 import { AccountProvider } from "@/components/AccountProvider";
 import DashboardNavbar from "@/components/DashboardNavbar";
-import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import { getCurrentAccount } from "../queries/account";
+import { SignUpButton } from "@clerk/nextjs";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const account = await useCurrentAccount();
+  const account = await getCurrentAccount();
+
+  if (account === null) {
+    return <SignUpButton />;
+  }
+
   return (
     <AccountProvider account={account}>
       <section id="main-section" className="flex flex-col h-full w-full">

@@ -29,7 +29,7 @@ model Account {
   Resume       Resume[]
   Subscription Subscription[]
   Profile      Profile[]
-  credits   Int? @default(5)
+  credits   Int @default(5)
 
   @@index([userId])
   @@index([username])

@@ -1,15 +1,15 @@
 import React from "react";
 import LandingPageNavbar from "./components/LandingPageNavbar";
 import LandingPageFooter from "./components/LandingPageFooter";
-import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import { AccountProvider } from "@/components/AccountProvider";
+import { getCurrentAccount } from "../queries/account";
 
 async function LandingLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
 }) {
-  const account = await useCurrentAccount();
+  const account = await getCurrentAccount();
   return (
     <AccountProvider account={account}>
       <section

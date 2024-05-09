@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { ClipboardCopyIcon } from "@radix-ui/react-icons";
 
 const Pitch = ({ disabled, pitch }: { disabled: boolean; pitch?: string }) => {
@@ -15,7 +16,7 @@ const Pitch = ({ disabled, pitch }: { disabled: boolean; pitch?: string }) => {
           <ClipboardCopyIcon />
         </Button>
       </div>
-      {pitch}
+      <Textarea value={pitch} rows={20} />
     </div>
   );
 };

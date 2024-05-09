@@ -53,8 +53,8 @@ const config: Config = {
         card: {
           DEFAULT: "var(--card)",
         },
-        "gradient-1": "var(--highligh-gradient-bg-1))",
-        "gradient-2": "var(--highligh-gradient-bg-2))",
+        "gradient-1": "var(--highlight-gradient-bg-1)",
+        "gradient-2": "var(--highlight-gradient-bg-2)",
       },
       borderRadius: {
         lg: "var(--radius)",

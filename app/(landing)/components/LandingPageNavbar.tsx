@@ -10,7 +10,7 @@ function LandingPageNavbar({ account }: { account: Account | null }) {
   return (
     <nav className="flex w-screen items-center justify-between p-4">
       <Logo />
-      <div className="text-purple-500 font-semibold text-md">
+      <div className="text-accent font-semibold text-md">
         {account ? (
           <div className="flex gap-x-4 items-center">
             <CreditsMenu account={account} />

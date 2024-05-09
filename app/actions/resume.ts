@@ -4,6 +4,8 @@ import { prismadb } from "@/lib/prismadb";
 import { currentUser } from "@clerk/nextjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { z } from "zod";
+import { updateAccountCredits } from "./account";
+import { getCurrentAccount } from "../queries/account";
 
 const resumeSchema = z.object({
   name: z.string().min(1).max(255),
@@ -12,14 +14,6 @@ const resumeSchema = z.object({
   generatedJSON: z.string().min(1),
   defaultResume: z.boolean(),
 });
-
-export async function getResumes(accountId: string) {
-  return prismadb.resume.findMany({
-    where: {
-      accountId,
-    },
-  });
-}
 
 export async function createResume({
   name,
@@ -42,20 +36,14 @@ export async function createResume({
     defaultResume,
   });
 
-  const user = await currentUser();
-
-  const account = await prismadb.account.findFirst({
-    where: {
-      userId: user?.id,
-    },
-  });
+  const account = await getCurrentAccount();
 
   if (account === null) {
     throw new Error("No account found");
   }
 
   try {
-    return await prismadb.resume.create({
+    const resume = await prismadb.resume.create({
       data: {
         accountId: account?.id,
         name: validatedData.name,
@@ -67,6 +55,10 @@ export async function createResume({
         updatedAt: new Date(),
       },
     });
+
+    await updateAccountCredits(account?.id, Math.max(account?.credits - 1, 0));
+
+    return resume;
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
       return console.log(e.message);

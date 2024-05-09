@@ -26,9 +26,9 @@
 
     --radius: 0.5rem;
 
-    --highligh-gradient-bg-1: #c351b0;
+    --highlight-gradient-bg-1: #c351b0;
 
-    --highligh-gradient-bg-2: #9333ea;
+    --highlight-gradient-bg-2: #9333ea;
   }
 
   .dark {
@@ -54,9 +54,9 @@
 
     --radius: 0.5rem;
 
-    --highligh-gradient-bg-1: #c351b0;
+    --highlight-gradient-bg-1: #c351b0;
 
-    --highligh-gradient-bg-2: #9333ea;
+    --highlight-gradient-bg-2: #9333ea;
   }
 }
 

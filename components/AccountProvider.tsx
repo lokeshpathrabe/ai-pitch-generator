@@ -15,5 +15,9 @@ export function AccountProvider({
 }
 
 export function useAccount() {
-  return React.useContext(context);
+  const account = React.useContext(context);
+  if (account === null) {
+    throw new Error("useAccount must be used within an AccountProvider");
+  }
+  return account;
 }

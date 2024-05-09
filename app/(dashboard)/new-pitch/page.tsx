@@ -1,25 +1,11 @@
 import React from "react";
-import { prismadb } from "@/lib/prismadb";
 import PitchForm from "./components/PitchForm";
-import { useCurrentAccount } from "@/utils/useCurrentAccount";
 import { SignInButton } from "@clerk/nextjs";
-import { useAccount } from "@/components/AccountProvider";
-
-const getResumes = async (accountId: string) => {
-  return prismadb.resume.findMany({
-    where: {
-      accountId,
-    },
-  });
-};
+import { getResumes } from "@/app/queries/resume";
 
 async function NewPitch() {
-  const account = await useCurrentAccount();
-  if (account) {
-    const resumes = await getResumes(account.id);
-    return <PitchForm resumes={resumes} />;
-  }
-  return <SignInButton />;
+  const resumes = await getResumes();
+  return <PitchForm resumes={resumes} />;
 }
 
 export default NewPitch;

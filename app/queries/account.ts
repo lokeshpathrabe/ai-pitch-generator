@@ -1,13 +1,11 @@
 import { prismadb } from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 
-export const useCurrentAccount = () => {
+export async function getCurrentAccount() {
   const { userId } = auth();
 
   if (userId) {
-    return prismadb.account
-      .findFirst({ where: { userId } })
-      .then((account) => account);
+    return await prismadb.account.findFirst({ where: { userId } });
   }
   return null;
-};
+}

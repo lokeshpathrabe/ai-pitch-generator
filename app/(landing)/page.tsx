@@ -52,7 +52,7 @@ const Hero = () => {
         <Link href={NEW_PITCH_ROUTE}>
           <Button
             variant="default"
-            className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:500px_500px]"
+            className="md:text-xl bg-gradient-to-r from-red-400 to-purple-600 animate-pulse-background bg-[length:500px_500px] duration-2000"
           >
             Generate Your First AI Pitch
           </Button>
@@ -97,7 +97,7 @@ const FeatureCard = ({
   icon: JSX.Element;
 }) => {
   return (
-    <div className="group flex flex-col items-center justify-center rounded-xl border border-purple-200 bg-background p-4 text-center">
+    <div className="group flex flex-col items-center justify-center rounded-xl border border-purple-200 bg-primary p-4 text-center">
       <div className="mb-4 rounded-full bg-purple-500 p-4 text-white group-hover:-translate-y-10 transition-all ease-in-out duration-300">
         {icon}
       </div>
@@ -149,9 +149,9 @@ const HowItWorks = () => {
             </div>
             <HowItWorksStep
               title="Step 2: Create Your AI Job Pitch"
-              description="Define the value proposition and train the AI to ask specific questions."
+              description="Provide a job description and the AI do the rest."
               checks={[
-                "Create best job pitch within minutes",
+                "Create best job pitch within seconds",
                 "Use your resume to train the AI",
                 "Customize your AI Job Pitch",
               ]}
@@ -198,31 +198,31 @@ const Pricing = () => {
         Pricing
       </h2>
       <div className="flex flex-col justify-center mx-6 space-y-6 sm:space-x-8 sm:flex-row sm:space-y-0">
-        <Card className="text-center">
+        <Card className="text-center bg-secondary">
           <CardHeader>
-            <CardDescription className="text-xl">Free Plan</CardDescription>
-            <CardTitle className="text-4xl">$0/Month</CardTitle>
+            <CardDescription className="text-xl">Free Tier</CardDescription>
+            <CardTitle className="text-4xl">$0</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-center text-muted-foreground">
-              Generate up to 5 Pitch
+              Get 5 free credits on signup
             </p>
             <Link href={NEW_PITCH_ROUTE}>
               <Button variant="outline">Get Started</Button>
             </Link>
           </CardContent>
         </Card>
-        <Card className="text-center">
+        <Card className="text-center bg-secondary">
           <CardHeader>
             <CardDescription className="text-xl">Paid Plan</CardDescription>
-            <CardTitle className="text-4xl">$5/Month</CardTitle>
+            <CardTitle className="text-4xl">5 Credits/ $1</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-center text-muted-foreground">
-              Create Unlimited AI Pitch
+              Purchase more credits
             </p>
             <Link href={NEW_PITCH_ROUTE}>
-              <Button>Get Started</Button>
+              <Button variant={"default"}>Comming Soon</Button>
             </Link>
           </CardContent>
         </Card>
